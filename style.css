@@ -1,0 +1,19 @@
+body{
+    background-color: pink;
+
+}
+h1{
+    background-color: antiquewhite;
+    color: blue;
+}
+table{
+    background-color: aliceblue;
+}
+
+th{
+    background-color: green;
+}
+
+td{
+    text-align: center;
+}
