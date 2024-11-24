@@ -17,3 +17,13 @@ th{
 td{
     text-align: center;
 }
+
+#Szmokas{
+    float:inline-end;
+    width: 200px;        /* Szélesség */
+    height: auto;        /* Magasság automatikus, hogy az arány megmaradjon */
+    border: 2px solid black; /* Fekete szegély */
+    border-radius: 10px; /* Lekerekített sarkok */
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5); /* Árnyék */
+    margin: 10px;        /* Külső margó */
+}

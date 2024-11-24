@@ -30,6 +30,7 @@
         <article>
         Itt meg egy article mi a szar        
     </article>
+    <img id ="Szmokas" src = "smoker.jpg"> 
         <table>
             <tr>
                 <th> Neve </th>
@@ -40,9 +41,11 @@
                     <td><?= $row->Nev?></td>
                     <td><?= $row->Eredmeny?></td>
                     <td><a href = "delete.php?id=<?=$row->ID?>">Töröl</a></td>
+                    <td><a href = "modosit.php?id=<?=$row->ID?>">Módosít</a></td>
                 </tr>
             <?php endwhile; ?>
         </table>
+        
     <p></p>
     <label> Nev: <input id = "Nevinput" type = "text"> </label>
     <label> Jegy: <input id = "Jegyinput" type = "number" max = 5 min = 0> </label>
