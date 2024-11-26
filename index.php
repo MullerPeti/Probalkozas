@@ -1,90 +1,58 @@
-<?php   
+<?php
     session_start();
-    require ("dbolvasas.php");
-    $db = getDb();
-    $result = $db->query("SELECT * FROM adatbazis");
-    if (isset($_SESSION['message'])) {
-        echo "<div class='alert alert-success'>" . $_SESSION['message'] . "</div>"; // Üzenet megjelenítése HTML-ben
-        unset($_SESSION['message']); // Üzenet törlése, hogy ne jelenjen meg újra
-    }
+    require_once("dbin.php");
+    $db = getDB();
+    $result1 = $db->query("SELECT hirek.cim as cim, hirek.szoveg as szoveg, hirek.datum as datum from hirek where hirek.datum > '2024-01-01' order by hirek.datum");
+    $result2 = $result1;
 ?>
 
 <!DOCTYPE html>
-<html lang = "hu">
+<html>
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type ="text/css" href="style.css">
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <link rel = "stylesheet" type = "text/css" href = "style.css">
+
     </head>
     <body>
-        <h1>
-            Itt a cím öregem
+        <div id = "keret">
+            <h1 >
+                Hírek
+            </h1>
+            Müller Péter TM1S67
+            <div id = "tartalom">
+            <?php while($row = $result1->fetchObject()) : ?>
+                <h2 id = "cikkcim">
+                    <?= $row->cim?>
+                </h2>
+                     <?= $row->szoveg?>
+                <h3 id = "hozzaszolascim">
+                    Hozzászólások
+                </h3>
 
-        </h1>
-        <p id="firstparagraph" onmouseleave="myotherfcn()" onmouseover="myfcn()">
-            Ez meg egy paragrafus
-
-        </p>
-        <button id = "btn1" onclick="clickfcn()"> Gomb1 </button>
-        <article>
-        Itt meg egy article mi a szar        
-    </article>
-    <img id ="Szmokas" src = "smoker.jpg"> 
-        <table>
-            <tr>
-                <th> Neve </th>
-                <th> Jegye </th>
-            </tr>
-            <?php while ($row = $result->fetchObject()) : ?>
-                <tr>    
-                    <td><?= $row->Nev?></td>
-                    <td><?= $row->Eredmeny?></td>
-                    <td><a href = "delete.php?id=<?=$row->ID?>">Töröl</a></td>
-                    <td><a href = "modosit.php?id=<?=$row->ID?>">Módosít</a></td>
-                </tr>
-            <?php endwhile; ?>
-        </table>
-        
-    <p></p>
-    <label> Nev: <input id = "Nevinput" type = "text"> </label>
-    <label> Jegy: <input id = "Jegyinput" type = "number" max = 5 min = 0> </label>
-    <button id = "btnbekuld" onclick = "clickfcn2()"> Hozzáadás </button>
-    <script>
-        function clickfcn()
-        {
-            console.log("Megnyomva");
-        }
-        function myfcn()
-        {
-            let p =document.getElementById("firstparagraph");
-            p.style.color = 'blue';
-        }
-        function myotherfcn()
-        {
-            let p =document.getElementById("firstparagraph");
-            p.style.color = 'yellow';
-        }
-        function clickfcn2()
-        {
-            let p = document.getElementById("Nevinput"); // Input mező a névhez
-            let b = document.getElementById("Jegyinput"); // Input mező a jegyhez
-            // Input értékek lekérése a value segítségével
-            let nev = p.value; 
-            let jegy = b.value;
-            console.log(nev);
-            $.ajax({
-            url: "adatbekuldes.php", // PHP fájl, amely feldolgozza az adatokat
-            method: "POST",
-            data: {
-                nev: nev,
-                jegy: jegy
-            },
-            success:function(response){
-                window.location.reload();
-            }
-            });
-        }
-    </script>
+                <ul>
+                    <?php 
+                        $result2 = $db->query("SELECT h.szerzo as szerzo, h.hozzaszolas as szoveg from hozzaszolas h inner join hozzaszolasok
+                        on hozzaszolasok.hozzaszolasid = h.id inner join hirek on 
+                        hirek.id = hozzaszolasok.hirid where hirek.cim = '$row->cim'");
+                        while($row2 = $result2->fetchObject()) :
+                    ?>
+                        <li>
+                            <?=$row2->szerzo?> : <?= $row2->szoveg?>
+                        </li>
+                    <?php endwhile; ?>
+                    <?php if($result2->rowCount() <1) : ?>
+                        <li>
+                            Nincs hozzászólás
+                        </li>
+                    <?php endif; ?>
+                </ul>
+                <?php endwhile;?>
+            </div>
+            <form action = "comment.php">
+                        <label>Név <br> <input type = "text" name = "nev" ></label>
+                        <label>Szöveg <br> <input type = "text" name = "nev" ></label>
+                        <input type = "submit" value="Elküld" name = "valami">
+            </form>
+        </div>
     </body>
 </html>

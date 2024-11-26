@@ -1,29 +1,24 @@
-body{
-    background-color: pink;
-
-}
-h1{
-    background-color: antiquewhite;
-    color: blue;
-}
-table{
-    background-color: aliceblue;
-}
-
-th{
-    background-color: green;
-}
-
-td{
+#keret{
     text-align: center;
+    background-color: lightgray;
+    display :flex ;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 0;
 }
 
-#Szmokas{
-    float:inline-end;
-    width: 200px;        /* Szélesség */
-    height: auto;        /* Magasság automatikus, hogy az arány megmaradjon */
-    border: 2px solid black; /* Fekete szegély */
-    border-radius: 10px; /* Lekerekített sarkok */
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5); /* Árnyék */
-    margin: 10px;        /* Külső margó */
+#tartalom{
+    z-index:1;
+    background-color: white;
+    width: 800px;
+    margin: 10px;
+    margin-left: 10px;
+    align-self: center;
+    text-align: left;
+
+}
+#cikkcim{
+    padding: 0;
+    
+
 }
